@@ -28,6 +28,7 @@ print_r($project);
 
 ## Available functions ##
 projects() // get all projects from account
+
 tickets($project) // get all tickets from project
 
 project($project) // get specific information about a project
@@ -47,6 +48,7 @@ addTicket($project,$params,$files) // add a ticket to a project
 addAttachments($project,$files,$ticket_id) // add an attachment to a ticket
 
 note($project, $note, $ticket_id, $changes) // add a note to a ticket
+
 
 
 Helper functions
