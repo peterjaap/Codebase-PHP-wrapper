@@ -16,7 +16,7 @@ Provides a re-usable PHP library for interacting with Codebase HQ (www.codebaseh
 ## Usage ##
 ```
 <?php
-require_once("codebase/codebase.php");
+require_once("Codebase.class.php");
 
 $secure = 's'; // or leave null to use HTTP
 $c = new Codebase('username','password','hostname',$secure);
