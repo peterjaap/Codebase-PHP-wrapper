@@ -126,7 +126,7 @@ class Codebase {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($ch);
         if(!$output) {
-            return "fout; ".curl_error($ch);
+            return "Error; ".curl_error($ch);
         } else {
             return $output;
         }
