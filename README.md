@@ -39,7 +39,7 @@ print_r($project);
 * addAttachments($project,$files,$ticket_id) // add an attachment to a ticket
 * note($project, $note, $ticket_id, $changes) // add a note to a ticket
 
-# Helper functions #
+### Helper functions ###
 
 * request() // issue the curl request
 * post() // wrapper for request() with POST option
