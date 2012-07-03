@@ -28,6 +28,7 @@ print_r($project);
 
 ## Available functions ##
 projects() // get all projects from account
+
 tickets($project) // get all tickets from project
 project($project) // get specific information about a project
 notes($ticket_id,$project) // get all notes from a ticket from a given project
