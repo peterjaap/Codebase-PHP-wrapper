@@ -62,8 +62,6 @@ class Codebase {
 
         $result = $this->post('/'.$project.'/time_sessions',$xml);
 
-        var_dump($result);exit;
-
         $result = $this->object2array(simplexml_load_string($result,'SimpleXMLElement',LIBXML_NOCDATA));
         return $result;
     }
