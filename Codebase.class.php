@@ -3,16 +3,25 @@ class Codebase {
 
     /* Version 1.0 */
 
-    public function __construct($username,$password,$hostname,$secure=null) {
+    public function __construct($username,$password,$hostname,$secure=null,$mode=null) {
         $this->username = $username;
         $this->password = $password;
         $this->hostname = $hostname;
         $this->secure = $secure;
+        $this->api_user = $username;
+        $this->api_key = $password;
+        if($mode==null) {
+            $this->mode = 'apikey';
+        } elseif($mode=='userpass') {
+            $this->mode = 'userpass';
+        }
         $this->url = 'http'.$this->secure.'://api3.codebasehq.com';
     }
 
     public function projects() {
-        $xml = $this->object2array(simplexml_load_string($this->get('/projects'),'SimpleXMLElement',LIBXML_NOCDATA));
+        $projects = $this->get('/projects');
+        if($projects===false) return false;
+        $xml = $this->object2array(simplexml_load_string($projects,'SimpleXMLElement',LIBXML_NOCDATA));
         return $xml['project'];
     }
 
@@ -56,7 +65,7 @@ class Codebase {
             } else {
                 $attributes = null;
             }
-            $xml .= '<'.$key.$attributes.'><![CDATA['.$value.']]></'.$key.'>';
+            $xml .= '<'.$key.$attributes.'>'.$value.'</'.$key.'>';
         }
         $xml .= '</time-session>';
 
@@ -96,9 +105,12 @@ class Codebase {
         return $result;
     }
 
-    public function note($project,$note,$ticketId,$changes=array()) {
+    public function note($project,$note,$ticketId,$changes=array(),$minutes=null) {
         $xml = '<ticket-note>';
            $xml .= '<content><![CDATA['.$note.']]></content>';
+           if($minutes!=null) {
+               $xml .= '<time-added><![CDATA['.$minutes.']]></time-added>';
+           }
            if(!empty($changes)) {
                $xml .= '<changes>';
                 foreach($changes as $key=>$value) {
@@ -119,12 +131,22 @@ class Codebase {
             curl_setopt($ch, CURLOPT_POST, $post);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
         }
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/xml','Accept: application/xml'));
-        curl_setopt($ch, CURLOPT_USERPWD, $this->hostname . '/'.$this->username . ':' . $this->password);
+        $headers = array(
+            'Content-Type: application/xml',
+            'Accept: application/xml'
+        );
+        if($this->mode=='apikey') {
+            $headers[] = 'Authorization: Basic ' . base64_encode($this->api_user . ':'. $this->api_key);
+        } else {
+            curl_setopt($ch, CURLOPT_USERPWD, $this->hostname . '/'.$this->username . ':' . $this->password);
+        }
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($ch);
-        if(!$output) {
-            return "Error; ".curl_error($ch);
+
+        if(!$output || strlen($output)==1) {
+            //echo "Error. ".curl_error($ch);
+            return false;
         } else {
             return $output;
         }
