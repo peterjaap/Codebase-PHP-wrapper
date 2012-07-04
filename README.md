@@ -49,5 +49,5 @@ print_r($project);
 
 
 ## Changelog ##
-v1.1 - Added login method through API credentials instead of regular credentials
-v1.0 - Added projects(), tickets(), project(), notes(), statuses(), categories(), priorities(), addTimeEntry(), addTicket(), addAttachments(), note(), request(), post(), get(), object2array()
+* v1.1 - Added login method through API credentials instead of regular credentials
+* v1.0 - Added projects(), tickets(), project(), notes(), statuses(), categories(), priorities(), addTimeEntry(), addTicket(), addAttachments(), note(), request(), post(), get(), object2array()
