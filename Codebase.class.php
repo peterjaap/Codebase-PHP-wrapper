@@ -1,7 +1,7 @@
 <?php
 class Codebase {
 
-    /* Version 1.0 */
+    /* Version 1.1 */
 
     public function __construct($username,$password,$hostname,$secure=null,$mode=null) {
         $this->username = $username;
