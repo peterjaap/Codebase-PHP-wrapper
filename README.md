@@ -19,7 +19,8 @@ Provides a re-usable PHP library for interacting with Codebase HQ (www.codebaseh
 require_once("Codebase.class.php");
 
 $secure = 's'; // or leave null to use HTTP
-$c = new Codebase('username','password','hostname',$secure);
+$c = new Codebase('apiuser','apikey','hostname',$secure);
+// OR: $c = new Codebase('username','password','hostname',$secure,'userpass'); // log in with normal credentials
 
 $project = $c->project('short-name-for-project');
 print_r($project);
